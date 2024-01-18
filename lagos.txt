@@ -1,7 +1,9 @@
 |Jalisco|
-Lago de Chapala*10*2.5-
+Lago de Chapala*30*2.5-
+Laguna de Cajititlan1*27*30-
+Valle de Juarez*29*5-
 |Michoacan|
-Lago de Pátzcuaro*12*3-
+Lago de Pátzcuaro*12*30-
 Lago de Zirahuén*26*2-
 Lago de Camecuaro*8*4-
 |Quintana Roo|

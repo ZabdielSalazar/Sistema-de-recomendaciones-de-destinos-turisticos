@@ -6,7 +6,7 @@ body {
 }
 
 .chat-container {
-  max-width: 700px;
+  max-width: 300px;
   margin: 20px auto;
   background-color: #fff;
   border-radius: 8px;
@@ -16,7 +16,7 @@ body {
 
 .chat-log {
   padding: 10px;
-  max-height: 300px;
+  max-height: 200px;
   overflow-y: auto;
 }
 

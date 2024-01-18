@@ -1,22 +1,18 @@
 mapa:
-- adaptar el mapa de mexico al tamaño mobil (no importa si se ve con zoom al ingresar a la pagina)
+-iNTEGRAR CHATBOT AL MAPA, PARTE SUPERIOR CENTRAL
+-hacer que abra cada pestaña (ahorita solo esta en jalisco, Baja california debemos acualizarlo etc)
+-hacer que solo se abra una psetaña (si le das varias veces a jalisco se abren varias)
 -Hacer la ventana de cada estado con su imagen e info en un archivo aparte
--separar style y funciones
-- hacer que abra cada pestaña (ahorita solo esta en jalisco, Baja california debemos acualizarlo)
+-adaptar el mapa de mexico al tamaño mobil (no importa si se ve con zoom al ingresar a la pagina)
 
 
-chatbot:                 seguir llenando el banco de datos (lugares,playas,lagos)...
+
+chatbot:
+Despues de poner el chatbot en el mapa:
 -ver como hacer para abrir pestaña del estado en el cual se pregunte aldo dentro de el (lago, playa, "que puedo conocer en jalisco", etc.)
--separar funciones
--agregar precio en lugar de clima a Lugares
--pensar en mas sinonimos para otros estados
-Si se quiere buscar mas de 2 parametros en una sola consulta la vez
-  -ver como solucionar si se busca clima y ubicacion a la vez: "dime un lugar frio cercano"
-  -ver que hacer si se busca un lago y playa a la vez
+seguir llenando el banco de datos (lugares,playas,lagos)...
 
-  ejemplo: dime una playa caliente cerca de la ciudad en cancun
-  buscar en playas de cancun
-  buscar playas con clima caleinte en cancun >= 23...
-  de esas playas calientes en cancun buscar las que esten cerca de la ciudad <= 15 km
-  si encontro varias que regrese una aleatoria 
-  sino encontro que diga que no hay playas que cumplan con esas caracteristicas
+ * TALVEZ *:
+  -agregar precio en lugar de clima a Lugares
+  -lago y playa ver que hacer
+  -pensar en mas sinonimos para otros estados
