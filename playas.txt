@@ -1,0 +1,6 @@
+|Jalisco|
+Chapala*0*9-
+Veracruz*1*20-
+|estado2|
+Guanajuato*10*8-
+Tlaxcala*1*20-

@@ -1,0 +1,81 @@
+const bancoDatos = {
+  lugares: {
+    'estado1': [
+      {
+        nombre: 'nombre1',
+        temperatura: temperaturaFlotante1,
+        ubicacionCentroCiudad: ubicacionFlotante1
+      },
+      {
+        nombre: 'nombre2',
+        temperatura: temperaturaFlotante2,
+        ubicacionCentroCiudad: ubicacionFlotante2
+      }
+    ],
+    'estado2': [
+      {
+        nombre: 'nombre1',
+        temperatura: temperaturaFlotante1,
+        ubicacionCentroCiudad: ubicacionFlotante1
+      },
+      {
+        nombre: 'nombre2',
+        temperatura: temperaturaFlotante2,
+        ubicacionCentroCiudad: ubicacionFlotante2
+      }
+    ],
+  }
+  Playas: {
+    'estado1': [
+      {
+        nombre: 'nombre1',
+        temperatura: temperaturaFlotante1,
+        ubicacionCentroCiudad: ubicacionFlotante1
+      },
+      {
+        nombre: 'nombre2',
+        temperatura: temperaturaFlotante2,
+        ubicacionCentroCiudad: ubicacionFlotante2
+      }
+    ],
+    'estado2': [
+      {
+        nombre: 'nombre1',
+        temperatura: temperaturaFlotante1,
+        ubicacionCentroCiudad: ubicacionFlotante1
+      },
+      {
+        nombre: 'nombre2',
+        temperatura: temperaturaFlotante2,
+        ubicacionCentroCiudad: ubicacionFlotante2
+      }
+    ],
+  }
+  Lagos: {
+    'estado1': [
+      {
+        nombre: 'nombre1',
+        temperatura: temperaturaFlotante1,
+        ubicacionCentroCiudad: ubicacionFlotante1
+      },
+      {
+        nombre: 'nombre2',
+        temperatura: temperaturaFlotante2,
+        ubicacionCentroCiudad: ubicacionFlotante2
+      }
+    ],
+    'estado2': [
+      {
+        nombre: 'nombre1',
+        temperatura: temperaturaFlotante1,
+        ubicacionCentroCiudad: ubicacionFlotante1
+      },
+      {
+        nombre: 'nombre2',
+        temperatura: temperaturaFlotante2,
+        ubicacionCentroCiudad: ubicacionFlotante2
+      }
+    ],
+  }
+ 
+};

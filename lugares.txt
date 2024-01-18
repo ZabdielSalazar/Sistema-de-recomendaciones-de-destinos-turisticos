@@ -1,0 +1,28 @@
+|Jalisco|
+Nevado de Colima*0*161-
+Zoologico de Guadalajara*19*7.4-
+Acuario Michin*19*0.7-
+Basílica de Nuestra Señora de Zapopan*19*7.5-
+Catedral de Guadalajara: Basílica de la Asunción de María Santísima*19*1.8-
+Estadio Jalisco*19*4-
+Mazamitla*15*136-
+|Colima|
+Catedral Basílica Menor de Colima*28*0.65-
+Zona mágica de Colima*28*196-
+Ecopark*28*1.2-
+Balneario los Amiales Colima*28*17-
+Feria de Todos los Santos*28*5.2-
+|Cancun|
+Chichén Itzá*26*212-
+Parque Xcaret*26*79-
+Parque Xel-Há*26*117-
+Xplor*26*77-
+Mercado 28*26*6.5-
+Zona Arqueológica de Tulum*26*131-
+Xoximilco Mexican Floating Fiesta in Cancun*26*23-
+Ventura Park*26*22-
+|Michoacan|
+Reserva de la Biósfera Santuario Mariposa Monarca*22*128-
+Parque Nacional Lago de Camécuaro*23*175-
+Parque Zoológico Benito Juárez*15*2.6-
+Estadio de Morelia*28*5.5-

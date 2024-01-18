@@ -1,0 +1,19 @@
+mapa:
+- adaptar el mapa de mexico al tamaño mobil (no importa si se ve con zoom al ingresar a la pagina)
+-Hacer la ventana de cada estado con su imagen e info en un archivo aparte
+-separar style y funciones
+- hacer que abra cada pestaña (ahorita solo esta en jalisco, Baja california debemos acualizarlo)
+
+
+chatbot:                 seguir llenando el banco de datos (lugares,playas,lagos)...
+-poner que al buscar (cancun, tulum, playa del carmen) sea igual a Quintana roo
+-agregar reglas a ubicacion a Si tiene estado
+-ver como solucionar si se busca clima y ubicacion a la vez: "dime un lugar frio cercano"
+-ver que hacer si se busca un lago y playa a la vez
+-quitar acentos a la consulta del usuario (no acepta michoacán,cancún)
+
+-ver como hacer para abrir pestaña del estado en el cual se pregunte aldo dentro de el (lago, playa, "que puedo conocer en jalisco", etc.)
+-considerar preguntas extra
+-separar funciones
+-separar Base de datos en otro archivo
+-agregar precio en lugar de clima a lugares
