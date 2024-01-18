@@ -150,18 +150,17 @@ function estadosSinonimo(consulta){
     }
     return consultaMin;
   }
-  
+
 }
 
 //Procesa el input del usuario (consulta es lo que puso el usuario)
 function procesarConsulta(consulta) {
   // Convertir la consulta a minúsculas para hacerla insensible a mayúsculas
-  //let consultaSinAcentos = consulta.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-  //let consultaMin = consultaSinAcentos.toLowerCase();
   let consultaMin = consulta.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
   var palabrasPermitidas = ["cancun", "tulum", "playa del carmen", "guadalajara", "gdl", "chetumal" ]; // lista de sinonimos de estados
   if (palabrasPermitidas.some(palabra => consultaMin.includes(palabra))) { // Si tiene un sinonimo se remplaza por el estado
       consultaMin = estadosSinonimo(consultaMin);
+      console.log(consultaMin);
   } 
   // Verificar si la consulta se refiere a playas o lagos
   if (consultaMin.includes('lugar') || consultaMin.includes('lugares') || consultaMin.includes('sitios') || consultaMin.includes('sitio')) {
@@ -177,32 +176,29 @@ function procesarConsulta(consulta) {
 
 
 
-
 function obtenerInformacionLugar(consulta) {
   const estadoDelObjeto = obtenerEstadoDesdeConsulta(consulta);
-  //console.log(estadoDelObjeto); //sirve para saber si tenemos un estado cuando el usuario lo escribe
-  // Utiliza el banco de datos (bancoDatos.playas) para obtener detalles sobre lugares
+  // Utiliza el banco de datos (bancoDatos.lugares) para obtener detalles sobre lugares
   const lugaresEnEstado = bancoDatos.lugares[estadoDelObjeto];
-  const clima = aplicarReglasSinonimosClima(consulta);
   const ubicacion = aplicarReglasSinonimosUbicacion(consulta);
-  //console.log(ubicacion);
-  //si el usuario consulto una playa sin estado en específico, devuelve un lugar aleatorio. ejemplo: dime un lugar
+  //si el usuario consulto un lugar sin estado en específico, devuelve un lugar aleatorio. ejemplo: dime un lugar
   if (!lugaresEnEstado) {
     const estadosConLugares = Object.keys(bancoDatos.lugares);
     let estadoAleatorio = estadosConLugares[Math.floor(Math.random() * estadosConLugares.length)];
     let lugaresEnEstado = bancoDatos.lugares[estadoAleatorio];
+    
     if(ubicacion==16){ // Ubicacion lejana
       let ubicacionesLejanas = lugaresEnEstado.filter((lugar) => lugar.ubicacionCentroCiudad >= ubicacion);
       let hastaQueEncuentreUnEstado = ubicacionesLejanas.length;
       while (hastaQueEncuentreUnEstado == 0){
         estadoAleatorio = estadosConLugares[Math.floor(Math.random() * estadosConLugares.length)];
-        //console.log(estadoAleatorio);
-          lugaresEnEstado = bancoDatos.lugares[estadoAleatorio];
-          ubicacionesLejanas = lugaresEnEstado.filter((lugar) => lugar.ubicacionCentroCiudad >= ubicacion);
+        lugaresEnEstado = bancoDatos.lugares[estadoAleatorio];
+        ubicacionesLejanas = lugaresEnEstado.filter((lugar) => lugar.ubicacionCentroCiudad >= ubicacion);
         hastaQueEncuentreUnEstado = ubicacionesLejanas.length;
       }
-      // Seleccionar una playa aleatoria entre las playas frías
+      // Seleccionar un lugar aleatorio entre los lugares lejanos
       const lugarSeleccionado = ubicacionesLejanas[Math.floor(Math.random() * ubicacionesLejanas.length)];
+      mostrarEstado(estadoAleatorio);
       return `Te recomendaría visitar ${lugarSeleccionado.nombre} en ${estadoAleatorio}`;
     }
     else if(ubicacion==15){ // Ubicacion cercana
@@ -210,76 +206,44 @@ function obtenerInformacionLugar(consulta) {
       let hastaQueEncuentreUnEstado = ubicacionesCercanas.length;
       while (hastaQueEncuentreUnEstado == 0){
         estadoAleatorio = estadosConLugares[Math.floor(Math.random() * estadosConLugares.length)];
-        //console.log(estadoAleatorio);
           lugaresEnEstado = bancoDatos.lugares[estadoAleatorio];
             ubicacionesCercanas = lugaresEnEstado.filter((lugar) => lugar.ubicacionCentroCiudad >= ubicacion);
           hastaQueEncuentreUnEstado = ubicacionesCercanas.length;
       }
-      // Seleccionar una playa aleatoria entre las playas frías
+      // Seleccionar una lugar aleatorio entre los lugares cercanos
       const lugarSeleccionado = ubicacionesCercanas[Math.floor(Math.random() * ubicacionesCercanas.length)];
-      return `Te recomendaría visitar ${lugarSeleccionado.nombre} en ${estadoAleatorio}`;
-    }
-
-    if(clima==23){
-      let lugaresCalientes = lugaresEnEstado.filter((lugar) => lugar.temperatura >= clima);
-      let hastaQueEncuentreUnEstado = lugaresCalientes.length;
-      while (hastaQueEncuentreUnEstado == 0){
-        estadoAleatorio = estadosConLugares[Math.floor(Math.random() * estadosConLugares.length)];
-        //console.log(estadoAleatorio);
-          lugaresEnEstado = bancoDatos.lugares[estadoAleatorio];
-          lugaresCalientes = lugaresEnEstado.filter((lugar) => lugar.temperatura >= clima);
-        hastaQueEncuentreUnEstado = lugaresCalientes.length;
-      }
-      // Seleccionar una playa aleatoria entre las playas frías
-      const lugarSeleccionado = lugaresCalientes[Math.floor(Math.random() * lugaresCalientes.length)];
-      return `Te recomendaría visitar ${lugarSeleccionado.nombre} en ${estadoAleatorio}`;
-    }
-    else if(clima==22){
-      let playasFrias = lugaresEnEstado.filter((lugar) => lugar.temperatura <= clima);
-      let hastaQueEncuentreUnEstado = playasFrias.length;
-      while (hastaQueEncuentreUnEstado == 0){
-        estadoAleatorio = estadosConLugares[Math.floor(Math.random() * estadosConLugares.length)];
-        //console.log(estadoAleatorio);
-          lugaresEnEstado = bancoDatos.lugares[estadoAleatorio];
-        playasFrias = lugaresEnEstado.filter((lugar) => lugar.temperatura >= clima);
-        hastaQueEncuentreUnEstado = playasFrias.length;
-      }
-      // Seleccionar una playa aleatoria entre las playas frías
-      const lugarSeleccionado = playasFrias[Math.floor(Math.random() * playasFrias.length)];
+      mostrarEstado(estadoAleatorio);
       return `Te recomendaría visitar ${lugarSeleccionado.nombre} en ${estadoAleatorio}`;
     }
     const lugarAleatorio = lugaresEnEstado[Math.floor(Math.random() * lugaresEnEstado.length)];
+    mostrarEstado(estadoAleatorio);
     return `Te recomendaría visitar ${lugarAleatorio.nombre} en ${estadoAleatorio}`;
   }
-  else {
-
-    // Seleccionar una playa aleatoria para simplificar
-    if(ubicacion==16){
+  else { // lugar con estado específico
+    if(ubicacion==16){ // lugar lejano
       const ubicacionesLejanas = lugaresEnEstado.filter((lugar) => lugar.ubicacionCentroCiudad >= ubicacion);
       if (ubicacionesLejanas.length === 0) {
         return 'No tengo lugares lejanos (mas de 16 km) para recomendar en este estado.';
       }
-      // Seleccionar una playa aleatoria entre las playas frías
+      // Seleccionar un lugar aleatorio entre los lugares lejanos
       const lugarSeleccionado = ubicacionesLejanas[Math.floor(Math.random() * ubicacionesLejanas.length)];
+      mostrarEstado(estadoDelObjeto);
       return `Te recomendaría visitar ${lugarSeleccionado.nombre} en ${estadoDelObjeto}`;
     }
-    else if(ubicacion==15){
+    else if(ubicacion==15){ // lugar cercano
       const ubicacionesCercanas = lugaresEnEstado.filter((lugar) => lugar.ubicacionCentroCiudad <= ubicacion);
       if (ubicacionesCercanas.length === 0) {
         return 'No hay lugares cercanos a 15km a la redonda.';
       }
-      // Seleccionar una playa aleatoria entre las playas frías
+      // Seleccionar un lugar aleatorio entre los lugares cercanos
       const lugarSeleccionado = ubicacionesCercanas[Math.floor(Math.random() * ubicacionesCercanas.length)];
+      mostrarEstado(estadoDelObjeto);
       return `Te recomendaría visitar ${lugarSeleccionado.nombre} en ${estadoDelObjeto}`;
     }
-
-    // Entra si se pregunta por una playa con estado
     const lugarSeleccionado = lugaresEnEstado[Math.floor(Math.random() * lugaresEnEstado.length)];
-    // Aplicar reglas de temperatura
-//Esta linea de abajo buscar un lugar por su precio
-   // const respuestaTemperatura = aplicarReglasTemperatura(lugarSeleccionado);
-   // return `${respuestaTemperatura}${lugarSeleccionado.nombre} en ${estadoDelObjeto}`;
-    return `${lugarSeleccionado.nombre} en ${estadoDelObjeto}`;
+    // buscar un lugar por su precio ?
+    mostrarEstado(estadoDelObjeto);
+    return `Te recomendaría visitar ${lugarSeleccionado.nombre} en ${estadoDelObjeto}`;
   }
 }
 
@@ -288,10 +252,7 @@ function obtenerInformacionLugar(consulta) {
 // Función para obtener información cuando en la consulta hay alguna playa
 function obtenerInformacionPlaya(consulta) {
   const pregEstado = buscarEstado(consulta);
-  console.log(pregEstado);
-  console.log(consulta);
   const estadoDelObjeto = obtenerEstadoDesdeConsulta(consulta);
-  console.log(estadoDelObjeto); //sirve para saber si tenemos un estado cuando el usuario lo escribe
   // Utiliza el banco de datos (bancoDatos.playas) para obtener detalles sobre playas
   const playasEnEstado = bancoDatos.playas[estadoDelObjeto];
   const clima = aplicarReglasSinonimosClima(consulta);
@@ -314,8 +275,10 @@ function obtenerInformacionPlaya(consulta) {
       }// Seleccionar una playa aleatoria entre las playas calientes
       const playaSeleccionada = playasCalientes[Math.floor(Math.random() * playasCalientes.length)];
       if(pregEstado !== 'undefined'){ // Si quiere una playa caliente en un estado y no hay, le recomienda una aleatoria 
+        mostrarEstado(estadoAleatorio);
         return `No hay playas calientes en este estado, pero te recomendaría visitar ${playaSeleccionada.nombre} en ${estadoAleatorio}`;
       }else{
+        mostrarEstado(estadoAleatorio);
         return `Te recomendaría visitar ${playaSeleccionada.nombre} en ${estadoAleatorio}`;
       }
     }
@@ -332,15 +295,19 @@ function obtenerInformacionPlaya(consulta) {
       // Seleccionar una playa aleatoria entre las playas frías
       const playaSeleccionada = playasFrias[Math.floor(Math.random() * playasFrias.length)];
       if(pregEstado !== 'undefined'){ // Si quiere una playa fria en un estado y no hay, le     recomienda una aleatoria 
+        mostrarEstado(estadoAleatorio);
         return `No hay playas frias en este estado, pero te recomendaría visitar ${playaSeleccionada.nombre} en ${estadoAleatorio}`;
       }else{
+        mostrarEstado(estadoAleatorio);
         return `Te recomendaría visitar ${playaSeleccionada.nombre} en ${estadoAleatorio}`;
       }
     }//Si en consulta: No hay estado ni menciona el clima, entonces busca una playa aleatoria
     const playaAleatoria = playasEnEstado[Math.floor(Math.random() * playasEnEstado.length)];
     if(pregEstado !== 'undefined'){ // Si quiere una playa en un estado y no hay, le recomienda una aleatoria 
+      mostrarEstado(estadoAleatorio);
       return `No hay playas en este estado, pero te recomendaría visitar ${playaAleatoria.nombre} en ${estadoAleatorio}`;
     }else{
+      mostrarEstado(estadoAleatorio);
       return `Te recomendaría visitar ${playaAleatoria.nombre} en ${estadoAleatorio}`;
     }
   }
@@ -357,6 +324,7 @@ function obtenerInformacionPlaya(consulta) {
         }
         // Seleccionar una playa aleatoria entre las playas calientes y lejos
         const lugarSeleccionado = ubicacionesLejanas[Math.floor(Math.random() * ubicacionesLejanas.length)];
+        mostrarEstado(estadoDelObjeto);
         return `Te recomendaría visitar ${lugarSeleccionado.nombre} en ${estadoDelObjeto}`;
       }
       else if(ubicacion==15){ // Ubicacion cercana en clima caliente, ejemplo: dime una playa caliente y cerca en colima 
@@ -366,10 +334,12 @@ function obtenerInformacionPlaya(consulta) {
         }
         // Seleccionar una playa aleatoria entre las playas calientes y cercanas
         const lugarSeleccionado = ubicacionesCercanas[Math.floor(Math.random() * ubicacionesCercanas.length)];
+        mostrarEstado(estadoDelObjeto);
         return `Te recomendaría visitar ${lugarSeleccionado.nombre} en ${estadoDelObjeto}`;
       }
       // Seleccionar una playa aleatoria entre las playas solo calientes
       const playaSeleccionada = playasCalientes[Math.floor(Math.random() * playasCalientes.length)];
+      mostrarEstado(estadoDelObjeto);
       return `Te recomendaría visitar ${playaSeleccionada.nombre} en ${estadoDelObjeto}`;
     }
     else if(clima==22){//aqui entra si se busco una playa con clima frio con estado, ejemplo: dime una playa fria en colima
@@ -384,6 +354,7 @@ function obtenerInformacionPlaya(consulta) {
         }
         // Seleccionar una playa aleatoria entre las playas calientes
         const lugarSeleccionado = ubicacionesLejanas[Math.floor(Math.random() * ubicacionesLejanas.length)];
+        mostrarEstado(estadoDelObjeto);
         return `Te recomendaría visitar ${lugarSeleccionado.nombre} en ${estadoDelObjeto}`;
       }
       else if(ubicacion==15){ //Ubicacion cercana en clima frio
@@ -393,10 +364,12 @@ function obtenerInformacionPlaya(consulta) {
         }
         // Seleccionar una playa aleatoria entre las playas frías
         const lugarSeleccionado = ubicacionesCercanas[Math.floor(Math.random() * ubicacionesCercanas.length)];
+        mostrarEstado(estadoDelObjeto);
         return `Te recomendaría visitar ${lugarSeleccionado.nombre} en ${estadoDelObjeto}`;
       }
       // Seleccionar una playa aleatoria entre las playas frías
       const playaSeleccionada = playasFrias[Math.floor(Math.random() * playasFrias.length)];
+      mostrarEstado(estadoDelObjeto);
       return `Te recomendaría visitar ${playaSeleccionada.nombre} en ${estadoDelObjeto}`;
     }
     if(ubicacion==16){ // SOLO PLAYA CON UBICACION LEJANA
@@ -406,6 +379,7 @@ function obtenerInformacionPlaya(consulta) {
       }
       // Seleccionar una playa aleatoria entre las playas frías
       const lugarSeleccionado = playasLejanas[Math.floor(Math.random() * playasLejanas.length)];
+      mostrarEstado(estadoDelObjeto);
       return `Te recomendaría visitar ${lugarSeleccionado.nombre} en ${estadoDelObjeto}`;
     }
     else if(ubicacion==15){ // SOLO PLAYA CON UBICACION CERCANA
@@ -415,11 +389,13 @@ function obtenerInformacionPlaya(consulta) {
       }
       // Seleccionar una playa aleatoria entre las playas frías
       const lugarSeleccionado = ubicacionesCercanas[Math.floor(Math.random() * ubicacionesCercanas.length)];
+      mostrarEstado(estadoDelObjeto);
       return `Te recomendaría visitar ${lugarSeleccionado.nombre} en ${estadoDelObjeto}`;
     }
     // Entra si se pregunta por una playa con estado
     const playaSeleccionada = playasEnEstado[Math.floor(Math.random() * playasEnEstado.length)];
     // Aplicar reglas de temperatura
+    mostrarEstado(estadoDelObjeto);
     const respuestaTemperatura = aplicarReglasTemperatura(playaSeleccionada);
     return `${respuestaTemperatura}${playaSeleccionada.nombre} en ${estadoDelObjeto}`;
   } //fin else (playasEnEstado) SI hay playas en el estado consultado, recordar que ubicacion aqui si importa, y en sin estado no
@@ -456,8 +432,10 @@ function obtenerInformacionLago(consulta) {
       // Seleccionar una playa aleatoria entre las playas frías
       const lagoSeleccionado = lagosCalientes[Math.floor(Math.random() * lagosCalientes.length)];
       if(pregEstado !== 'undefined'){ // Si quiere una playa caliente en un estado y no hay, le recomienda una aleatoria 
+        mostrarEstado(estadoAleatorio);
         return `No hay lagos calientes en este estado, pero te recomendaría visitar ${lagoSeleccionado.nombre} en ${estadoAleatorio}`;
        }else{
+         mostrarEstado(estadoAleatorio);
          return `Te recomendaría visitar ${lagoSeleccionado.nombre} en ${estadoAleatorio}`;
        }
     }
@@ -471,19 +449,23 @@ function obtenerInformacionLago(consulta) {
         lagosFrios = lagosEnEstado.filter((lago) => lago.temperatura >= clima);
         hastaQueEncuentreUnEstado = lagosFrios.length;
       }
-      
+
       // Seleccionar una playa aleatoria entre las playas frías
       const lagoSeleccionado = lagosFrios[Math.floor(Math.random() * lagosFrios.length)];
       if(pregEstado !== 'undefined'){ // Si quiere una playa caliente en un estado y no hay, le recomienda una aleatoria 
+        mostrarEstado(estadoAleatorio);
         return `No hay lagos frios en este estado, pero te recomendaría visitar ${lagoSeleccionado.nombre} en ${estadoAleatorio}`;
        }else{
+         mostrarEstado(estadoAleatorio);
          return `Te recomendaría visitar ${lagoSeleccionado.nombre} en ${estadoAleatorio}`;
        }
     }
     const lagoAleatorio = lagosEnEstado[Math.floor(Math.random() * lagosEnEstado.length)];
     if(pregEstado !== 'undefined'){ // Si quiere un lago en un estado y no hay, le recomienda uno aleatoria 
+      mostrarEstado(estadoAleatorio);
       return `No hay lagos en este estado, pero te recomendaría visitar ${lagoAleatorio.nombre} en ${estadoAleatorio}`;
     }else{
+      mostrarEstado(estadoAleatorio);
       return `Te recomendaría visitar ${lagoAleatorio.nombre} en ${estadoAleatorio}`;
     }
   }
@@ -501,6 +483,7 @@ function obtenerInformacionLago(consulta) {
         }
         // Seleccionar una lago aleatorio entre los lagos calientes y lejos
         const lugarSeleccionado = ubicacionesLejanas[Math.floor(Math.random() * ubicacionesLejanas.length)];
+        mostrarEstado(estadoDelObjeto);
         return `Te recomendaría visitar ${lugarSeleccionado.nombre} en ${estadoDelObjeto}`;
       }
       else if(ubicacion==15){ // Ubicacion cercana en clima caliente, ejemplo: dime una lago caliente y cerca en colima 
@@ -510,13 +493,14 @@ function obtenerInformacionLago(consulta) {
         }
       // Seleccionar una lago aleatorio entre los playos frios y cercanos
       const lagoSeleccionado = ubicacionesCercanas[Math.floor(Math.random() * ubicacionesCercanas.length)];
+      mostrarEstado(estadoDelObjeto);
       return `Te recomendaría visitar ${lagoSeleccionado.nombre} en ${estadoDelObjeto}`;
       }
     }
     else if(clima==22){
       const lagosFrios = lagosEnEstado.filter((playa) => playa.temperatura <= clima);
       if (lagosFrios.length === 0) {
-        return 'No hay playas con temperatura menor a 22 grados en este estado.';
+        return 'No hay lagos con temperatura menor a 22 grados en este estado.';
       }
       if(ubicacion==16){ // Ubicacion lejana en  clima frios, ejemplo: dime un lago friios y lejos en colima 
         const ubicacionesLejanas = lagosFrios.filter((lago) => lago.ubicacionCentroCiudad >= ubicacion);
@@ -525,19 +509,22 @@ function obtenerInformacionLago(consulta) {
         }
         // Seleccionar una lago aleatorio entre los lagos frios y lejos
         const lugarSeleccionado = ubicacionesLejanas[Math.floor(Math.random() * ubicacionesLejanas.length)];
+        mostrarEstado(estadoDelObjeto);
         return `Te recomendaría visitar ${lugarSeleccionado.nombre} en ${estadoDelObjeto}`;
       }
-      else if(ubicacion==15){ // Ubicacion cercana en clima frios, ejemplo: dime una lago frio y cerca en colima 
+      else if(ubicacion==15){ // Ubicacion cercana en clima frios, ejemplo: dime un lago frio y cerca en colima 
         const ubicacionesCercanas = lagosFrios.filter((lago) => lago.ubicacionCentroCiudad <= ubicacion);
         if (ubicacionesCercanas.length === 0) {
           return 'No hay lagos cercanos de la ciudad y frios a 15km a la redonda.';
         }
       // Seleccionar una lago aleatorio entre los playos frios y cercanos
       const lagoSeleccionado = ubicacionesCercanas[Math.floor(Math.random() * ubicacionesCercanas.length)];
+      mostrarEstado(estadoDelObjeto);
       return `Te recomendaría visitar ${lagoSeleccionado.nombre} en ${estadoDelObjeto}`;
       }
-      // Seleccionar una playa aleatoria entre las playas frías
+      // Seleccionar un lago aleatorio entre los lagos fríos
       const lagoSeleccionado = lagosFrios[Math.floor(Math.random() * lagosFrios.length)];
+      mostrarEstado(estadoDelObjeto);
       return `Te recomendaría visitar ${lagoSeleccionado.nombre} en ${estadoDelObjeto}`;
     }
     if(ubicacion==16){ // SOLO LAGO CON UBICACION LEJANA
@@ -547,6 +534,7 @@ function obtenerInformacionLago(consulta) {
       }
       // Seleccionar un lago aleatorio entre los lagos caleintes y lejos
       const lugarSeleccionado = lagosLejanos[Math.floor(Math.random() * lagosLejanos.length)];
+      mostrarEstado(estadoDelObjeto);
       return `Te recomendaría visitar ${lugarSeleccionado.nombre} en ${estadoDelObjeto}`;
     }
     else if(ubicacion==15){ // SOLO LAGO CON UBICACION CERCANA
@@ -556,12 +544,14 @@ function obtenerInformacionLago(consulta) {
       }
       // Seleccionar un lago aleatorio entre los lagos fríos
       const lugarSeleccionado = ubicacionesCercanas[Math.floor(Math.random() * ubicacionesCercanas.length)];
+      mostrarEstado(estadoDelObjeto);
       return `Te recomendaría visitar ${lugarSeleccionado.nombre} en ${estadoDelObjeto}`;
     }
-    // Entra si se pregunta por una playa con estado
+    // Entra si se pregunta por un lago con estado
     const lagoSeleccionado = lagosEnEstado[Math.floor(Math.random() * lagosEnEstado.length)];
     // Aplicar reglas de temperatura
     const respuestaTemperatura = aplicarReglasTemperatura(lagoSeleccionado);
+    mostrarEstado(estadoDelObjeto);
     return `${respuestaTemperatura}${lagoSeleccionado.nombre} en ${estadoDelObjeto}`;
   }//fin else (lagosEnEstado) SI hay lagos en el estado consultado, recordar que ubicacion aqui si importa, y en sin estado no
 }//fin function obtenerInformacionLago(consulta)
@@ -583,6 +573,88 @@ function buscarEstado(consulta) {
   return estadoEnConsulta || 'undefined';
 }
 
+function mostrarEstado(consulta) {
+  // Array con los nombres de los estados
+  const estados = [
+    'aguascalientes', 'baja california norte', 'baja california sur', 'campeche', 'chiapas',
+    'chihuahua', 'coahuila', 'colima', 'durango', 'estado de mexico', 'guanajuato',
+    'guerrero', 'hidalgo', 'jalisco', 'michoacan', 'morelos', 'nayarit', 'nuevo leon',
+    'oaxaca', 'puebla', 'queretaro', 'quintana roo', 'san luis potosi', 'sinaloa',
+    'sonora', 'tabasco', 'tamaulipas', 'tlaxcala', 'veracruz', 'yucatan', 'zacatecas', 'ciudad de mexico'];
+  // Convertir la consulta a minúsculas para hacer la comparación de manera insensible a mayúsculas
+  const consultaMinuscula = consulta.toLowerCase();
+  // Verificar si la consulta incluye alguno de los estados
+  let estadoEnConsulta = estados.find(estado => consultaMinuscula.includes(estado));
+  //NUEVO ---------------------------------------------
+  if(estadoEnConsulta !== 'undefined') {
+    if(estadoEnConsulta === 'baja california norte'){
+      document.getElementById("Ventana_BC").style.display = 'block';
+    } else if(estadoEnConsulta === 'baja california sur'){
+      document.getElementById("Ventana_BCS").style.display = 'block';
+    } else if(estadoEnConsulta === 'yucatan'){
+      document.getElementById("Ventana_YUC").style.display = 'block';
+    } else if(estadoEnConsulta === 'jalisco'){
+      document.getElementById("VentanaJAL").style.display = 'block';
+    } else if(estadoEnConsulta === 'quintana roo'){
+      document.getElementById("Ventana_QRO").style.display = 'block';
+    } else if(estadoEnConsulta === 'chiapas'){
+      document.getElementById("VentanaCHI").style.display = 'block';
+    } else if(estadoEnConsulta === 'coahuila'){
+      document.getElementById("VentanaCOA").style.display = 'block';
+    } else if(estadoEnConsulta === 'chihuahua'){
+      document.getElementById("VentanaHUA").style.display = 'block';
+    } else if(estadoEnConsulta === 'durango'){
+      document.getElementById("VentanaDUR").style.display = 'block';
+    } else if(estadoEnConsulta === 'sinaloa'){
+      document.getElementById("VentanaSIN").style.display = 'block';
+    } else if(estadoEnConsulta === 'sonora'){
+      document.getElementById("VentanaSON").style.display = 'block';
+    } else if(estadoEnConsulta === 'zacatecas'){
+      document.getElementById("VentanaZAC").style.display = 'block';
+    } else if(estadoEnConsulta === 'nuevo leon'){
+      document.getElementById("VentanaNL").style.display = 'block';
+    } else if(estadoEnConsulta === 'san luis potosi'){
+      document.getElementById("VentanaSLP").style.display = 'block';
+    } else if(estadoEnConsulta === 'tamaulipas'){
+      document.getElementById("VentanaTAM").style.display = 'block';
+    } else if(estadoEnConsulta === 'aguascalientes'){
+      document.getElementById("VentanaAGU").style.display = 'block';
+    } else if(estadoEnConsulta === 'colima'){
+      document.getElementById("VentanaCOL").style.display = 'block';
+    } else if(estadoEnConsulta === 'michoacan'){
+      document.getElementById("VentanaMICH").style.display = 'block';
+    } else if(estadoEnConsulta === 'Nayarit'){
+      document.getElementById("VentanaNAY").style.display = 'block';
+    } else if(estadoEnConsulta === 'campeche'){
+      document.getElementById("VentanaCAMP").style.display = 'block';
+    } else if(estadoEnConsulta === 'oaxaca'){
+      document.getElementById("VentanaOAX").style.display = 'block';
+    } else if(estadoEnConsulta === 'puebla'){
+      document.getElementById("VentanaPUE").style.display = 'block';
+    } else if(estadoEnConsulta === 'tabasco'){
+      document.getElementById("VentanaTAB").style.display = 'block';
+    } else if(estadoEnConsulta === 'tlaxcala'){
+      document.getElementById("Ventana_TLAX").style.display = 'block';
+    } else if(estadoEnConsulta === 'ciudad de mexico'){
+      document.getElementById("Ventana_CDMX").style.display = 'block';
+    } else if(estadoEnConsulta === 'guanajuato'){
+      document.getElementById("Ventana_GTO").style.display = 'block';
+    } else if(estadoEnConsulta === 'guerrero'){
+      document.getElementById("Ventana_GRR").style.display = 'block';
+    } else if(estadoEnConsulta === 'hidalgo'){
+      document.getElementById("Ventana_HID").style.display = 'block';
+    } else if(estadoEnConsulta === 'estado de mexico'){
+      document.getElementById("Ventana_MEX").style.display = 'block';
+    } else if(estadoEnConsulta === 'morelos'){
+      document.getElementById("Ventana_MOR").style.display = 'block';
+    } else if(estadoEnConsulta === 'queretaro'){
+      document.getElementById("Ventana_QTR").style.display = 'block';
+    } else if(estadoEnConsulta === 'veracruz'){
+      document.getElementById("Ventana_VRZ").style.display = 'block';
+    } 
+  }
+}
+
 function obtenerEstadoDesdeConsulta(consulta) {
     if (consulta.includes('lugar') || consulta.includes('lugares') || consulta.includes('sitios') || consulta.includes('sitio')) {
     const estados = Object.keys(bancoDatos.lugares);
@@ -597,7 +669,7 @@ function obtenerEstadoDesdeConsulta(consulta) {
     else if (consulta.includes('lago') || consulta.includes('lagos') || consulta.includes('laguna') || consulta.includes('lagunas')){
     const estados = Object.keys(bancoDatos.lagos);
     const estadoEnConsulta = estados.find((estado) => consulta.includes(estado.toLowerCase()));
-     
+
     return estadoEnConsulta || 'undefined';
   }
 }
@@ -619,8 +691,7 @@ function aplicarReglasTemperatura(lugar) {
 
 function aplicarReglasSinonimosClima(consulta) {
   const sinonimosConsulta = consulta.split(/\s+/);
-
-  // Aplicar reglas de temperatura y construir la respuesta
+  // Aplicar reglas de temperatura
   const respuestaTemperatura = reglasSinonimosClima.reduce((acumulador, regla) => {
     if (sinonimosConsulta.some(sinonimo => regla.condicion(sinonimo))) {
       return regla.respuesta;
@@ -632,8 +703,6 @@ function aplicarReglasSinonimosClima(consulta) {
 
 function aplicarReglasSinonimosUbicacion(consulta) {
   const sinonimosConsulta = consulta.split(/\s+/);
-  console.log("entro");
-  // Aplicar reglas de temperatura y construir la respuesta
   const respuestaUbicacion = reglasUbicacion.reduce((acumulador, regla) => {
     if (sinonimosConsulta.some(sinonimo => regla.condicion(sinonimo))) {
       return regla.respuesta;

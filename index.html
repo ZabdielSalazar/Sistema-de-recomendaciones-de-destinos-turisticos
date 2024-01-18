@@ -1,25 +1,234 @@
-<!DOCTYPE html>
-<html lang="es">
+ <html>
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Chatbot Simple</title>
-  <link rel="stylesheet" href="styles.css">
+  <title>Mapa Inteligente Vacacional</title>
+  <link rel="stylesheet" href="style.css">
 </head>
+  
 <body>
-  <div class="chat-container">
-    <input type="text" id="user-input" placeholder="Escribe aquí (ej): 'recomiendame una playa en cancún...'" onkeydown="handleKeyPress(event)" />
-    <button onclick="obtenerRespuesta()">Enviar</button>
-    <div class="chat-log" id="chat-log"></div>
+  <div>
+    <div class="mapadiv">
+
+      <div class="chat-container">
+        <input type="text" id="user-input" placeholder="Escribe aquí (ej): 'recomiendame una playa en cancún...'" onkeydown="handleKeyPress(event)" />
+        <button onclick="obtenerRespuesta()">Enviar</button>
+        <div class="chat-log" id="chat-log"></div>
+      </div>
+      
+      <svg version="1.2" viewbox="0 0 1000 631" xmlns="http://www.w3.org/2000/svg">
+        <path d="M901.9 362.5l0 0.2-0.2-0.1-0.3 0.1 0.3-0.2 0.2 0z m2.8 0.4l1.1 0.9 1 1.5 0.5 1.2-0.4 1.8-0.4 1-0.5 0.4-0.4-0.1-0.6-0.3-0.3-0.3 0.1-0.4-0.3-0.6 0.2-0.2 0.5-0.2 0.6-0.6 0.1-0.8-0.6-0.7-0.4-0.5-0.1-0.8-0.8-0.4-0.7-0.3-0.6 0.2-0.2 0.5-0.3-0.1 0.2-0.5 0.3-0.5 0.3-0.5 0.5-0.2 1.2 0.5z" id="MEX99" name="">
+        </path>
+        <a xlink:title="Baja California">
+        <path id="BC" d="" id="MEX2706" name="Baja California">
+       </path> </a>
+        <a xlink:title="Baja California Sur">
+          <path id="BCS"
+            d=""
+            id="MEX2707" name="Baja California Sur">
+          </path>
+        </a>
+
+        <a xlink:title="Coahuila">
+            <path id="COA" d="" id="MEX2708" name="Coahuila">
+            </path></a>
+
+        <a xlink:title="Chihuahua">
+          <path id="HUA"
+            d=""
+            id="MEX2709" name="Chihuahua">
+          </path>
+        </a>
+        <a xlink:title="Durango">
+          <path id="DUR"
+            d=""
+            id="MEX2710" name="Durango">
+          </path>
+        </a>
+        <a xlink:title="Sinaloa">
+          <path id="SIN"
+            d=""
+            id="MEX2711" name="Sinaloa">
+          </path>
+        </a>
+        <a xlink:title="Sonora">
+          <path id="SON"
+            d=""
+            id="MEX2712" name="Sonora">
+          </path>
+        </a>
+        <a xlink:title="Zacatecas">
+          <path id="ZAC"
+            d=""
+            id="MEX2713" name="Zacatecas">
+          </path>
+        </a>
+        <a xlink:title="Nuevo León">
+          <path id="NL"
+            d=""
+            id="MEX2714" name="Nuevo León">
+          </path>
+        </a>
+        <a xlink:title="San Luis Potosí">
+          <path id="SLP"
+            d=""
+            id="MEX2715" name="San Luis Potosí">
+          </path>
+        </a>
+        <a xlink:title="Tamaulipas">
+          <path id="TAM"
+            d=""
+            id="MEX2716" name="Tamaulipas">
+          </path>
+        </a>
+        <a xlink:title="Aguascalientes">
+          <path id="AGU"
+            d=""
+            id="MEX2717" name="Aguascalientes">
+          </path>
+        </a>
+        <a xlink:title="Colima">
+          <path id="COL"
+            d=""
+            id="MEX2718" name="Colima">
+          </path>
+        </a>
+        <a xlink:title="Jalisco">
+          <path id="JAL"
+            d=""
+            id="MEX2719" name="Jalisco">
+          </path>
+        </a>
+        <a xlink:title="Michoacán">
+          <path id="MICH"
+            d=""
+            id="MEX2720" name="Michoacán">
+          </path>
+        </a>
+        <a xlink:title="Nayarit">
+          <path id="NAY"
+            d=""
+            id="MEX2721" name="Nayarit">
+          </path>
+        </a>
+        <a xlink:title="Campeche">
+          <path id="CAMP"
+            d=""
+            id="MEX2722" name="Campeche">
+          </path>
+        </a>
+        <a xlink:title="Oaxaca">
+          <path id="OAX"
+            d=""
+            id="MEX2723" name="Oaxaca">
+          </path>
+        </a>
+        <a xlink:title="Puebla">
+          <path id="PUE"
+            d=""
+            id="MEX2724" name="Puebla">
+          </path>
+        </a>
+        <a xlink:title="Tabasco">
+          <path id="TAB"
+            d=""
+            id="MEX2725" name="Tabasco">
+          </path>
+        </a>
+        <a xlink:title="Tlaxcala">
+          <path id="TLAX"
+            d=""
+            id="MEX2726" name="Tlaxcala">
+          </path>
+        </a>
+        <a xlink:title="Ciudad de México">
+          <path id="CDMX"
+            d=""
+            id="MEX2727" name="Distrito Federal">
+          </path>
+        </a>
+        <a xlink:title="Guanajuato">
+          <path id="GTO"
+            d=""
+            id="MEX2728" name="Guanajuato">
+          </path>
+        </a>
+        <a xlink:title="Guerrero">
+          <path id="GRR"
+            d=""
+            id="MEX2729" name="Guerrero">
+          </path>
+        </a>
+        <a xlink:title="Hidalgo">
+          <path id="HID"
+            d=""
+            id="MEX2730" name="Hidalgo">
+          </path>
+        </a>
+        <a xlink:title="México">
+          <path id="MEX"
+            d=""
+            id="MEX2731" name="México">
+          </path>
+        </a>
+        <a xlink:title="Morelos">
+          <path id="MOR"
+            d=""
+            id="MEX2732" name="Morelos">
+          </path>
+        </a>
+        <a xlink:title="Querétaro">
+          <path id="QTR"
+            d=""
+            id="MEX2733" name="Querétaro">
+          </path>
+        </a>
+        <a xlink:title="Veracruz">
+          <path id="VRZ"
+            d=""
+            id="MEX2734" name="Veracruz">
+          </path>
+        </a>
+        <a xlink:title="Chiapas">
+          <path id="CHI"
+            d=""
+            id="MEX2735" name="Chiapas">
+          </path>
+        </a>
+        <a xlink:title="Quintana Roo">
+          <path id="QRO"
+            d=""
+            id="MEX2736" name="Quintana Roo">
+          </path>
+        </a>
+        <a xlink:title="Yucatán">
+          <path id="YUC" d=""
+            id="MEX2737" name="Yucatán">
+          </path>
+        </a>
+        <circle cx="832.1" cy="533.4" id="0">
+        </circle>
+        <circle cx="832.6" cy="533.3" id="1">
+        </circle>
+        <circle cx="832.6" cy="533.5" id="2">
+        </circle>
+      </svg>
+    </div>
+
   </div>
   <script>
-  function handleKeyPress(event) {
-      // Verificar si la tecla presionada es "Enter"
-      if (event.key === 'Enter') {
-          obtenerRespuesta();
-      }
-  }
-  </script>
-  <script src="script.js"></script>
+    function handleKeyPress(event) {
+        // Verificar si la tecla presionada es "Enter"
+        if (event.key === 'Enter') {
+            obtenerRespuesta();
+        }
+    }
+    </script>
+    <script src="script_2.js"></script>
+  <script src="funciones_mapa_2.js"></script>
 </body>
+
 </html>
+
+
+
+

@@ -1,0 +1,11 @@
+JAL.addEventListener('click', function () {
+  var nuevaVentana = document.createElement('div');
+  nuevaVentana.setAttribute("id", "Div1");
+  nuevaVentana.classList.add('ventana');
+  nuevaVentana.innerHTML = `
+    <span class="cerrar" onclick="cerrarVentana(id)">&times;</span>
+    <h2 style="text-align:center">hola</h2>
+    <p >adios</p>
+  `;
+  document.getElementById('Div1').style.display = 'block';
+});

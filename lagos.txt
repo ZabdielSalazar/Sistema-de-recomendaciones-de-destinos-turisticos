@@ -1,6 +1,6 @@
 |Jalisco|
 Lago de Chapala*30*2.5-
-Laguna de Cajititlan1*27*30-
+Laguna de Cajititlan*27*30-
 Valle de Juarez*29*5-
 |Michoacan|
 Lago de Pátzcuaro*12*30-

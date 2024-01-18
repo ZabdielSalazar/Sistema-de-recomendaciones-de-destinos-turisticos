@@ -1,0 +1,99 @@
+  img {
+    user-select: none;
+    /* Evita la selección de texto en navegadores modernos */
+    -webkit-user-drag: none;
+    /* Evita que la imagen se pueda arrastrar en navegadores WebKit */
+  }
+
+  .mapadiv {
+    background-color: #DAF8F7;
+
+    margin: auto;
+  }
+
+  .mapadiv path {
+    fill: #C4FFA2;
+    stroke: #000;
+    stroke-width: 1px;
+  }
+
+  .mapadiv path:hover {
+    fill: #F60D22;
+  }
+
+  .ventana {
+    width: 300px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    background-color: #fff;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+
+    display: none;
+  }
+
+  .cerrar {
+    color: #888;
+    cursor: pointer;
+    float: right;
+    font-size: 70px;
+  }
+
+/*----------------------------------CSS Chatbot-----------------------------------------------------------------------------------*/
+
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f4f4f4;
+}
+
+.chat-container {
+  max-width: 500px;
+  margin: 20px auto;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.chat-log {
+  padding: 10px;
+  max-height: 120px;
+  overflow-y: auto;
+}
+
+input {
+  width: 70%;
+  padding: 8px;
+  margin: 0;
+  display: inline-block;
+  border: none;
+  border-radius: 0;
+  box-sizing: border-box;
+}
+
+button {
+  width: 28%;
+  padding: 8px;
+  margin: 0;
+  display: inline-block;
+  border: none;
+  border-radius: 0;
+  box-sizing: border-box;
+  background-color: #4caf50;
+  color: #fff;
+  cursor: pointer;
+}
+
+.user {
+  text-align: right;
+  color: #333;
+}
+
+.bot {
+  text-align: left;
+  color: #555;
+}
+
