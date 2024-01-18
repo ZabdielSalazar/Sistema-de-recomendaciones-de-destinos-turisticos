@@ -1,0 +1,13 @@
+|Colima|
+Playa Manzanillo*40*1-
+Playa Manzanillo2*40*10-
+Playa Colorada*14*2-
+|Quintana Roo|
+Playa Delfines*24*16.4-
+Tulum*25*20-
+|Michoacan|
+Playa Eréndira*22*2.5-
+Caleta de Campos*23*4-
+Llanitos del Bejuco*15*2-
+Maruata*28*2-
+Ejemplo1*14*20-
