@@ -1,6 +1,9 @@
 |Jalisco|
-Chapala*10*9-
-Cajititlan*23*230-
-|estado2|
-Guanajuato*10*8-
-Tlaxcala*1*20-
+Lago de Chapala*10*2.5-
+|Michoacan|
+Lago de Pátzcuaro*12*3-
+Lago de Zirahuén*26*2-
+Lago de Camecuaro*8*4-
+|Quintana Roo|
+Laguna Bacalar*10*1.5-
+Cenote Azul*25*1-

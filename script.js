@@ -10,7 +10,8 @@ const bancoDatos = {
 };
 
 function procesarLinea(linea, categoria) {
-  const [, estado] = linea.match(/\|(\w+)\|/) || [];
+  //const [, estado] = linea.match(/\|(\w+)\|/) || [];
+  const [, estado] = linea.match(/\|(\w+(?:\s+\w+)*)\|/) || [];
   const [, nombre, temperatura, ubicacion] = linea.match(/([^|]+)\*(\d+(?:\.\d+)?)\*(\d+(?:\.\d+)?)/) || [];
   const [, nombreObjeto, temperaturaObjeto, ubicacionObjeto] = linea.match(/([^|]+)\*(\d+(?:\.\d+)?)\*(\d+(?:\.\d+)?)-/) || [];
 
@@ -52,33 +53,17 @@ async function cargarYProcesarArchivo(archivo, categoria) {
     const lineas = datos.split('\n');
 
     lineas.forEach((linea, index) => {
-      console.log(`Procesando línea ${index + 1}: ${linea}`);
+      //console.log(`Procesando línea ${index + 1}: ${linea}`);
       procesarLinea(linea, categoria);
     });
   } catch (error) {
     console.error(`Error al cargar o procesar el archivo ${archivo}: ${error.message}`);
   }
 }
-
 cargarYProcesarArchivo('lugares.txt', 'lugares');
 cargarYProcesarArchivo('playas.txt', 'playas');
 cargarYProcesarArchivo('lagos.txt', 'lagos');
-
-console.log(bancoDatos);
-console.log(bancoDatos.Jalisco);
-
-
-
-
-
-
-
-
-
-
-
-
-
+//console.log(bancoDatos);
 
 //Funcion para mostrar mensaje principal
 function iniciarChat() {
@@ -146,13 +131,42 @@ function obtenerRespuesta() {
   document.getElementById('user-input').value = '';
 }
 
+function estadosSinonimo(consulta){
+  let consultaMin = consulta.toLowerCase(); 
+  // Sinonimos 
+  var quintanaRoo = ["cancun", "tulum", "playa del carmen", "chetumal"];
+  var jalisco = ["guadalajara", "gdl"];
+  // se remplaza la plabra por el estado (ejemplo: cancun -> quintana roo)
+  if (quintanaRoo.some(palabra => consulta.includes(palabra))){ //Quintana Roo
+    for (var i = 0; i < quintanaRoo.length; i++) {
+      var palabra = quintanaRoo[i];
+        consultaMin = consultaMin.replace(new RegExp(palabra, "gi"), "quintana roo");
+    }
+    return consultaMin;
+  } else if (jalisco.some(palabra => consulta.includes(palabra))){ //Jalisco
+    for (var i = 0; i < jalisco.length; i++) {
+      var palabra = jalisco[i];
+        consultaMin = consultaMin.replace(new RegExp(palabra, "gi"), "jalisco");
+    }
+    return consultaMin;
+  }
+  
+}
 
 //Procesa el input del usuario (consulta es lo que puso el usuario)
 function procesarConsulta(consulta) {
   // Convertir la consulta a minúsculas para hacerla insensible a mayúsculas
-  const consultaMin = consulta.toLowerCase();
-  const pregEstado = buscarEstado(consulta);
-  //console.log(pregEstado);
+  //let consultaSinAcentos = consulta.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+  //let consultaMin = consultaSinAcentos.toLowerCase();
+  let consultaMin = consulta.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+  console.log(consultaMin);
+  console.log("-----------");
+  
+  var palabrasPermitidas = ["cancun", "tulum", "playa del carmen", "guadalajara", "gdl", "chetumal" ]; // lista de sinonimos de estados
+  if (palabrasPermitidas.some(palabra => consultaMin.includes(palabra))) { // Si tiene un sinonimo se remplaza por el estado
+      consultaMin = estadosSinonimo(consultaMin);
+      console.log(consultaMin);
+  } 
   // Verificar si la consulta se refiere a playas o lagos
   if (consultaMin.includes('lugar') || consultaMin.includes('lugares') || consultaMin.includes('sitios') || consultaMin.includes('sitio')) {
 
@@ -338,6 +352,9 @@ function obtenerInformacionPlaya(consulta) {
       if (playasCalientes.length === 0) {
         return 'No hay playas con temperatura menor a 22 grados en este estado.';
       }
+
+
+      
       // Seleccionar una playa aleatoria entre las playas frías
       const playaSeleccionada = playasCalientes[Math.floor(Math.random() * playasCalientes.length)];
       return `Te recomendaría visitar ${playaSeleccionada.nombre} en ${estadoDelObjeto}`;
@@ -363,8 +380,10 @@ function obtenerInformacionPlaya(consulta) {
 
 function obtenerInformacionLago(consulta) {
   const pregEstado = buscarEstado(consulta);
+  console.log(pregEstado);
   // Implementar lógica para buscar información sobre playas
   const estadoDelObjeto = obtenerEstadoDesdeConsulta(consulta);
+  console.log(estadoDelObjeto);
   //console.log(estado); //sirve para saber si tenemos un estado cuando el usuario lo escribe
   // Utiliza el banco de datos (bancoDatos.playas) para obtener detalles sobre playas
   const lagosEnEstado = bancoDatos.lagos[estadoDelObjeto];
@@ -406,7 +425,7 @@ function obtenerInformacionLago(consulta) {
       const lagoAleatorio = lagosEnEstado[Math.floor(Math.random() * lagosEnEstado.length)];
       return `Te recomendaría visitar ${lagoAleatorio.nombre} en ${estadoAleatorio}`;
       } 
-      return `No ha lagos en ${pregEstado}`;
+      return `No hay lagos en ${pregEstado}`;
   }
   // Seleccionar un lago aleatorio si 
   else {
@@ -451,12 +470,11 @@ function buscarEstado(consulta) {
     'chihuahua', 'coahuila', 'colima', 'durango', 'estado de mexico', 'guanajuato',
     'guerrero', 'hidalgo', 'jalisco', 'michoacan', 'morelos', 'nayarit', 'nuevo leon',
     'oaxaca', 'puebla', 'queretaro', 'quintana roo', 'san luis potosi', 'sinaloa',
-    'sonora', 'tabasco', 'tamaulipas', 'tlaxcala', 'veracruz', 'yucatan', 'zacatecas'
-  ];
+    'sonora', 'tabasco', 'tamaulipas', 'tlaxcala', 'veracruz', 'yucatan', 'zacatecas'];
   // Convertir la consulta a minúsculas para hacer la comparación de manera insensible a mayúsculas
   const consultaMinuscula = consulta.toLowerCase();
   // Verificar si la consulta incluye alguno de los estados
-  const estadoEnConsulta = estados.find(estado => consultaMinuscula.includes(estado));
+  let estadoEnConsulta = estados.find(estado => consultaMinuscula.includes(estado));
   // Devolver el estado encontrado o 'undefined' si no se encontró ninguno
   return estadoEnConsulta || 'undefined';
 }
@@ -475,6 +493,7 @@ function obtenerEstadoDesdeConsulta(consulta) {
     else if (consulta.includes('lago') || consulta.includes('lagos') || consulta.includes('laguna') || consulta.includes('lagunas')){
     const estados = Object.keys(bancoDatos.lagos);
     const estadoEnConsulta = estados.find((estado) => consulta.includes(estado.toLowerCase()));
+     
     return estadoEnConsulta || 'undefined';
   }
 }

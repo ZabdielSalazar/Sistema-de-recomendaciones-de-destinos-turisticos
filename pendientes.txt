@@ -6,14 +6,17 @@ mapa:
 
 
 chatbot:                 seguir llenando el banco de datos (lugares,playas,lagos)...
--poner que al buscar (cancun, tulum, playa del carmen) sea igual a Quintana roo
--agregar reglas a ubicacion a Si tiene estado
--ver como solucionar si se busca clima y ubicacion a la vez: "dime un lugar frio cercano"
--ver que hacer si se busca un lago y playa a la vez
--quitar acentos a la consulta del usuario (no acepta michoacán,cancún)
-
 -ver como hacer para abrir pestaña del estado en el cual se pregunte aldo dentro de el (lago, playa, "que puedo conocer en jalisco", etc.)
--considerar preguntas extra
 -separar funciones
--separar Base de datos en otro archivo
--agregar precio en lugar de clima a lugares
+-agregar precio en lugar de clima a Lugares
+-pensar en mas sinonimos para otros estados
+Si se quiere buscar mas de 2 parametros en una sola consulta la vez
+  -ver como solucionar si se busca clima y ubicacion a la vez: "dime un lugar frio cercano"
+  -ver que hacer si se busca un lago y playa a la vez
+
+  ejemplo: dime una playa caliente cerca de la ciudad en cancun
+  buscar en playas de cancun
+  buscar playas con clima caleinte en cancun >= 23...
+  de esas playas calientes en cancun buscar las que esten cerca de la ciudad <= 15 km
+  si encontro varias que regrese una aleatoria 
+  sino encontro que diga que no hay playas que cumplan con esas caracteristicas
